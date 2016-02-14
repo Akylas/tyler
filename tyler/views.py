@@ -21,11 +21,11 @@ def get_image(request):
 
     map_form = MapForm(request.GET)
     if not map_form.is_valid():
-        return HttpResponse(json.dumps(map_form.errors), mimetype='application/json', status=400)
+        return HttpResponse(json.dumps(map_form.errors), content_type='application/json', status=400)
 
     image_data = cached_get_image(**map_form.cleaned_data)
 
     format = map_form.cleaned_data['format'].upper()
     if format not in Image.MIME:
         raise ValidationError("Unsupported format: %s" % format)
-    return HttpResponse(image_data, mimetype=Image.MIME[format])
+    return HttpResponse(image_data, content_type=Image.MIME[format])
