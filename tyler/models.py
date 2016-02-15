@@ -57,10 +57,13 @@ class Map(object):
         self.height = height
         self.greyscale = greyscale
         self.format = format
-        self.headers = json.load(tile_url_headers)
+        self.headers = json.loads(tile_url_headers)
 
         self.shards = self.shard_re.findall(tile_url)[0]
         self.tile_url = self.shard_re.sub('{sharding}', tile_url)
+        print >>sys.stderr, 'tile_url: ' + tile_url
+        print >>sys.stderr, 'tile_url_headers: ' + tile_url_headers
+        print >>sys.stderr, 'headers: ' + json.dumps(self.headers)
 
     def _number_of_tiles_for_zoom(self):
         return 2 ** self.zoom
