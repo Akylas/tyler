@@ -39,7 +39,7 @@ class MapForm(forms.Form):
         return self.check('format', 'png')
 
     def clean_tile_url(self):
-        return self.check('tile_url', 'http://[abc].tile.openstreetmap.org/{zoom}/{x}/{y}.png')
+        return self.check('tile_url', 'http://[abc].tile.openstreetmap.org/{z}/{x}/{y}.png')
 
     def clean_tile_url_headers(self):
         return self.check('tile_url_headers', '')
