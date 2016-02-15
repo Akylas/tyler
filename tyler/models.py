@@ -66,8 +66,10 @@ class Map(object):
             self.headers = json.loads(tile_url_headers)
         except ValueError, e:
             self.headers = None
-
-        self.shards = self.shard_re.findall(tile_url)[0]
+        
+        found_shards = self.shard_re.findall(tile_url)
+        if (len(found_shards) > 0):
+            self.shards = found_shards[0]
         self.tile_url = self.shard_re.sub('{sharding}', tile_url)
 
         print >>sys.stderr, 'headers: ' + json.dumps(self.headers)
