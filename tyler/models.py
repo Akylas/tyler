@@ -123,7 +123,7 @@ class Map(object):
 
         image = Image.new('RGBA', (image_width, image_height), (0,0,0,0))
         blank_image = Image.new('RGBA', (image_width, image_height), (0,0,0,0))
-        print >>sys.stderr, 'number of tiles to download: ' + (len(tiles) * len(tiles[0]))
+        print >>sys.stderr, 'number of tiles to download: ' + str(len(tiles) * len(tiles[0]))
 
         for row_offset, row in enumerate(tiles):
             for col_offset, (x, y) in enumerate(row):
