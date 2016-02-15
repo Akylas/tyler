@@ -38,6 +38,8 @@ def tileXY(lat, lon, z):
 
 @cacheback(getattr(settings, 'TYLER_TILE_CACHE_DURATION', 60 * 60 * 24 * 7))
 def cached_get_tile(tile_url, headers):
+    print >>sys.stderr, 'cached_get_tile tile_url: ' + tile_url
+    print >>sys.stderr, 'cached_get_tile headers: ' + json.dumps(headers)
     response = requests.get(tile_url, headers=headers)
     response.raise_for_status()
     image_data = response.content
