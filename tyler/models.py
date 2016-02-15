@@ -62,9 +62,9 @@ class Map(object):
         print >>sys.stderr, 'tile_url: ' + tile_url
         print >>sys.stderr, 'tile_url_headers: ' + tile_url_headers
         
-        if tile_url_headers is not None:
+        try:
             self.headers = json.loads(tile_url_headers)
-        else:
+        except ValueError, e:
             self.headers = None
 
         self.shards = self.shard_re.findall(tile_url)[0]
