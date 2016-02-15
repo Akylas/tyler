@@ -5,6 +5,7 @@ import io
 import math
 import requests
 import random
+import json
 
 from cacheback.decorators import cacheback
 
@@ -35,8 +36,8 @@ def tileXY(lat, lon, z):
     return int(x), int(y)
 
 @cacheback(getattr(settings, 'TYLER_TILE_CACHE_DURATION', 60 * 60 * 24 * 7))
-def cached_get_tile(tile_url):
-    response = requests.get(tile_url)
+def cached_get_tile(tile_url, headers):
+    response = requests.get(tile_url, headers=headers)
     response.raise_for_status()
     image_data = response.content
     return image_data
@@ -48,7 +49,7 @@ class Map(object):
 
     shard_re = re.compile(r'\[(.*)\]')
 
-    def __init__(self, lat, lon, zoom=17, width=800, height=600, tile_url='http://[abc].tile.openstreetmap.org/{zoom}/{x}/{y}.png', greyscale=False, format='png'):
+    def __init__(self, lat, lon, zoom=17, width=800, height=600, tile_url='http://[abc].tile.openstreetmap.org/{zoom}/{x}/{y}.png', greyscale=False, format='png', headers=None):
         self.lat = lat
         self.lon = lon
         self.zoom = zoom
@@ -56,6 +57,7 @@ class Map(object):
         self.height = height
         self.greyscale = greyscale
         self.format = format
+        self.headers = json.load(headers)
 
         self.shards = self.shard_re.findall(tile_url)[0]
         self.tile_url = self.shard_re.sub('{sharding}', tile_url)
@@ -132,7 +134,7 @@ class Map(object):
             raise ValidationError("Unsupported format: %s" % self.format)
 
     def get_tile(self, zoom, x, y):
-        image_data = cached_get_tile(self.get_tile_url(zoom, x, y))
+        image_data = cached_get_tile(self.get_tile_url(zoom, x, y), self.headers)
         return io.BytesIO(image_data)
 
     def get_tile_url(self, zoom, x, y):
