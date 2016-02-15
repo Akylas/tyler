@@ -153,4 +153,7 @@ class Map(object):
         return io.BytesIO(image_data)
 
     def get_tile_url(self, zoom, x, y):
-        return self.tile_url.format(zoom=zoom, x=x, y=y, sharding=random.choice(self.shards))
+        if (self.shards is not None):
+            return self.tile_url.format(zoom=zoom, x=x, y=y, sharding=random.choice(self.shards))
+        else:
+            return self.tile_url.format(zoom=zoom, x=x, y=y)
