@@ -52,7 +52,7 @@ class Map(object):
 
     shard_re = re.compile(r'\[(.*)\]')
 
-    def __init__(self, lat, lon, zoom=17, width=800, height=600, tile_url='http://[abc].tile.openstreetmap.org/{zoom}/{x}/{y}.png', greyscale=False, format='png', tile_url_headers=None):
+    def __init__(self, lat, lon, zoom=17, width=800, height=600, tile_url='http://[abc].tile.openstreetmap.org/{z}/{x}/{y}.png', greyscale=False, format='png', tile_url_headers=None):
         self.lat = lat
         self.lon = lon
         self.zoom = zoom
@@ -157,6 +157,6 @@ class Map(object):
 
     def get_tile_url(self, zoom, x, y):
         if (self.shards is not None):
-            return self.tile_url.format(zoom=zoom, x=x, y=y, sharding=random.choice(self.shards))
+            return self.tile_url.format(z=zoom, x=x, y=y, sharding=random.choice(self.shards))
         else:
-            return self.tile_url.format(zoom=zoom, x=x, y=y)
+            return self.tile_url.format(z=zoom, x=x, y=y)
