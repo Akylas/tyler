@@ -49,7 +49,7 @@ class Map(object):
 
     shard_re = re.compile(r'\[(.*)\]')
 
-    def __init__(self, lat, lon, zoom=17, width=800, height=600, tile_url='http://[abc].tile.openstreetmap.org/{zoom}/{x}/{y}.png', greyscale=False, format='png', headers=None):
+    def __init__(self, lat, lon, zoom=17, width=800, height=600, tile_url='http://[abc].tile.openstreetmap.org/{zoom}/{x}/{y}.png', greyscale=False, format='png', tile_url_headers=None):
         self.lat = lat
         self.lon = lon
         self.zoom = zoom
@@ -57,7 +57,7 @@ class Map(object):
         self.height = height
         self.greyscale = greyscale
         self.format = format
-        self.headers = json.load(headers)
+        self.headers = json.load(tile_url_headers)
 
         self.shards = self.shard_re.findall(tile_url)[0]
         self.tile_url = self.shard_re.sub('{sharding}', tile_url)
