@@ -70,6 +70,9 @@ class Map(object):
         found_shards = self.shard_re.findall(tile_url)
         if (len(found_shards) > 0):
             self.shards = found_shards[0]
+        else:
+            self.shards = None
+            
         self.tile_url = self.shard_re.sub('{sharding}', tile_url)
 
         print >>sys.stderr, 'headers: ' + json.dumps(self.headers)
