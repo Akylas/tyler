@@ -57,7 +57,10 @@ class Map(object):
         self.height = height
         self.greyscale = greyscale
         self.format = format
-        self.headers = json.loads(tile_url_headers)
+        if tile_url_headers is not None:
+            self.headers = json.loads(tile_url_headers)
+        else:
+            self.headers = None
 
         self.shards = self.shard_re.findall(tile_url)[0]
         self.tile_url = self.shard_re.sub('{sharding}', tile_url)
