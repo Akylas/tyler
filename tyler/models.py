@@ -161,10 +161,10 @@ class Map(object):
     def get_tile_url(self, zoom, x, y):
         if "{bbox}" in self.tile_url:
             tileSize = WMS_MAP_SIZE / Math.pow(2, zoom);
-            minx = WMS_ORIGIN_X + x * tileSize;
-            maxx = WMS_ORIGIN_X + (x + 1) * tileSize;
-            miny = WMS_ORIGIN_Y - (y + 1) * tileSize;
-            maxy = WMS_ORIGIN_Y - y * tileSize;
+            minx = self.WMS_ORIGIN_X + x * tileSize;
+            maxx = self.WMS_ORIGIN_X + (x + 1) * tileSize;
+            miny = self.WMS_ORIGIN_Y - (y + 1) * tileSize;
+            maxy = self.WMS_ORIGIN_Y - y * tileSize;
             bbox = '{},{},{},{}'.format(minx, miny, maxx, maxy)
             if (self.shards is not None):
                 return self.tile_url.format(bbox=bbox, sharding=random.choice(self.shards))
