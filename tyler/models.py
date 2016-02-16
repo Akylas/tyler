@@ -165,11 +165,11 @@ class Map(object):
             maxx = self.WMS_ORIGIN_X + (x + 1) * tileSize;
             miny = self.WMS_ORIGIN_Y - (y + 1) * tileSize;
             maxy = self.WMS_ORIGIN_Y - y * tileSize;
-            bbox = '{},{},{},{}'.format(minx, miny, maxx, maxy)
+            bbox = str(minx)+ "," + str(miny)+ "," + str(maxx)+ "," + str(maxy)
             if (self.shards is not None):
                 return self.tile_url.format(bbox=bbox, sharding=random.choice(self.shards))
             else:
-                return self.tile_url.format(bbox=bbox, x=x, y=y)
+                return self.tile_url.format(bbox=bbox)
         else:
             if (self.shards is not None):
                 return self.tile_url.format(z=zoom, x=x, y=y, sharding=random.choice(self.shards))
