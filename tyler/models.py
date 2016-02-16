@@ -46,7 +46,10 @@ def cached_get_tile(tile_url, headers):
     return image_data
 
 class Map(object):
-
+    EARTH_RADIUS = 6378.137;
+    WMS_ORIGIN_X = -20037508.34789244;
+    WMS_ORIGIN_Y = 20037508.34789244;
+    WMS_MAP_SIZE = 20037508.34789244 * 2;
     tile_width = 256
     tile_height = 256
 
@@ -156,7 +159,19 @@ class Map(object):
         return io.BytesIO(image_data)
 
     def get_tile_url(self, zoom, x, y):
-        if (self.shards is not None):
-            return self.tile_url.format(z=zoom, x=x, y=y, sharding=random.choice(self.shards))
+        if "{bbox}" in self.tile_url:
+            tileSize = WMS_MAP_SIZE / Math.pow(2, zoom);
+            minx = WMS_ORIGIN_X + x * tileSize;
+            maxx = WMS_ORIGIN_X + (x + 1) * tileSize;
+            miny = WMS_ORIGIN_Y - (y + 1) * tileSize;
+            maxy = WMS_ORIGIN_Y - y * tileSize;
+            bbox = '{},{},{},{}'.format(minx, miny, maxx, maxy)
+            if (self.shards is not None):
+                return self.tile_url.format(bbox=bbox, sharding=random.choice(self.shards))
+            else:
+                return self.tile_url.format(bbox=bbox, x=x, y=y)
         else:
-            return self.tile_url.format(z=zoom, x=x, y=y)
+            if (self.shards is not None):
+                return self.tile_url.format(z=zoom, x=x, y=y, sharding=random.choice(self.shards))
+            else:
+                return self.tile_url.format(z=zoom, x=x, y=y)
