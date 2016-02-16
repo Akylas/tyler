@@ -160,7 +160,7 @@ class Map(object):
 
     def get_tile_url(self, zoom, x, y):
         if "{bbox}" in self.tile_url:
-            tileSize = WMS_MAP_SIZE / Math.pow(2, zoom);
+            tileSize = self.WMS_MAP_SIZE / Math.pow(2, zoom);
             minx = self.WMS_ORIGIN_X + x * tileSize;
             maxx = self.WMS_ORIGIN_X + (x + 1) * tileSize;
             miny = self.WMS_ORIGIN_Y - (y + 1) * tileSize;
